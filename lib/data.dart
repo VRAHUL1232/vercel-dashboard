@@ -27,7 +27,7 @@ class DataScreenState extends State<DataScreen> {
 
   Future<void> readCSV() async {
     isLoading = true;
-    String data = await rootBundle.loadString('assets/csv/ILP.csv');
+    final data = await rootBundle.loadString('assets/csv/ILP.csv');
     List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(data);
 
     setState(() {
