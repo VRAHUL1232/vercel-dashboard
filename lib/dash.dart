@@ -10,7 +10,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:csv/csv.dart';
 import 'dart:async' show Future;
 
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
   runApp(const MaterialApp(

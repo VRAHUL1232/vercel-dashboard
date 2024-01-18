@@ -11,8 +11,11 @@ class DataScreen extends StatefulWidget {
   DataScreenState createState() => DataScreenState();
 }
 
+bool isLoading = false;
+
 class DataScreenState extends State<DataScreen> {
-  List<List<dynamic>> csvData = [];
+  List<List<dynamic>> csvData = [[]];
+  List<dynamic> csvColumn = [];
 
   @override
   void initState() {
@@ -21,11 +24,14 @@ class DataScreenState extends State<DataScreen> {
   }
 
   Future<void> readCSV() async {
+    isLoading = true;
     String data = await rootBundle.loadString('assets/csv/ILP.csv');
     List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(data);
 
     setState(() {
       csvData = rowsAsListOfValues;
+      isLoading = false;
+      csvColumn = csvData[0];
     });
   }
 
@@ -46,46 +52,51 @@ class DataScreenState extends State<DataScreen> {
     // File('your_path/excel.xlsx').writeAsBytes(bytes);  // Uncomment to save the file (change 'your_path')
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('CSV Reader'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.file_download),
-            onPressed: () {
-              exportToExcel(); // Call exportToExcel when the button is pressed
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: csvData.isNotEmpty
-                ? List.generate(
-                    csvData[0].length,
-                    (index) => DataColumn(label: Text('Column $index')))
-                : [],
-            rows: csvData.isNotEmpty
-                ? List.generate(
-                    csvData.length,
-                    (index) => DataRow(
-                      cells: List.generate(
-                        csvData[index].length,
-                        (cellIndex) => DataCell(
-                          Text(csvData[index][cellIndex].toString()),
-                        ),
-                      ),
-                    ),
-                  )
-                : [],
-          ),
+ // ...
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('CSV Reader'),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.file_download),
+          onPressed: () {
+            exportToExcel(); // Call exportToExcel when the button is pressed
+          },
         ),
+      ],
+    ),
+    body: (isLoading) ? Center(child: CircularProgressIndicator(color: Colors.black,)) : SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+  columns: csvColumn.isNotEmpty
+      ? List.generate(
+          csvData[0].length,
+          (index) => DataColumn(label: Text('Column $index')),
+        )
+      : [], // Check if csvData is not empty before generating columns
+  rows: csvData.isNotEmpty
+      ? List.generate(
+          csvData.length,
+          (index) => DataRow(
+            cells: List.generate(
+              csvData[index].length,
+              (cellIndex) => DataCell(
+                Text(csvData[index][cellIndex].toString()),
+              ),
+            ),
+          ),
+        )
+      : [], // Check if csvData is not empty before generating rows
+),
+
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
