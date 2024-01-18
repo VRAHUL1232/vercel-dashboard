@@ -74,14 +74,12 @@ Widget build(BuildContext context) {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: DataTable(
-  columns: csvColumn.isNotEmpty
-      ? List.generate(
+  columns: List.generate(
           csvData[0].length,
           (index) => DataColumn(label: Text('Column $index')),
         )
-      : [], // Check if csvData is not empty before generating columns
-  rows: csvData.isNotEmpty
-      ? List.generate(
+, // Check if csvData is not empty before generating columns
+  rows: List.generate(
           csvData.length,
           (index) => DataRow(
             cells: List.generate(
@@ -91,8 +89,7 @@ Widget build(BuildContext context) {
               ),
             ),
           ),
-        )
-      : [], // Check if csvData is not empty before generating rows
+        ), // Check if csvData is not empty before generating rows
 ),
 
       ),
