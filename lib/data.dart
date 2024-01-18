@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 
 class DataScreen extends StatefulWidget {
 
+  const DataScreen({super.key});
+
   @override
   DataScreenState createState() => DataScreenState();
 }
@@ -48,7 +50,6 @@ class DataScreenState extends State<DataScreen> {
     }
 
     // Save the Excel file
-    final List<int>? bytes = excel.encode();
     // File('your_path/excel.xlsx').writeAsBytes(bytes);  // Uncomment to save the file (change 'your_path')
   }
 
@@ -56,19 +57,19 @@ class DataScreenState extends State<DataScreen> {
 
 @override
 Widget build(BuildContext context) {
-  return Scaffold(
+  return (isLoading) ?  Scaffold(body: Center(child: CircularProgressIndicator(color: Colors.black,))) :  Scaffold(
     appBar: AppBar(
-      title: Text('CSV Reader'),
+      title: const Text('CSV Reader'),
       actions: [
         IconButton(
-          icon: Icon(Icons.file_download),
+          icon: const Icon(Icons.file_download),
           onPressed: () {
             exportToExcel(); // Call exportToExcel when the button is pressed
           },
         ),
       ],
     ),
-    body: (isLoading) ? Center(child: CircularProgressIndicator(color: Colors.black,)) : SingleChildScrollView(
+    body: SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

@@ -22,10 +22,10 @@ class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
 
   @override
-  _DashboardScreenState createState() => _DashboardScreenState();
+  DashboardScreenState createState() => DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class DashboardScreenState extends State<DashboardScreen> {
   late List<List<dynamic>> csvData;
   static int totalRow = 0;
   static int acceleration = 0;
@@ -180,7 +180,7 @@ class Rating extends StatelessWidget {
   final String title;
   final int section;
 
-  const Rating({required this.title, required this.section});
+  const Rating({required this.title, required this.section,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -199,13 +199,13 @@ class Rating extends StatelessWidget {
 class TenStarRatingBar extends StatefulWidget {
   final int section;
 
-  const TenStarRatingBar({required this.section});
+  const TenStarRatingBar({required this.section,super.key});
 
   @override
-  _TenStarRatingBarState createState() => _TenStarRatingBarState();
+  TenStarRatingBarState createState() => TenStarRatingBarState();
 }
 
-class _TenStarRatingBarState extends State<TenStarRatingBar> {
+class TenStarRatingBarState extends State<TenStarRatingBar> {
   late Map<int, double> _ratings;
 
   @override
@@ -216,11 +216,11 @@ class _TenStarRatingBarState extends State<TenStarRatingBar> {
   }
 
   void _initRatings() {
-    int ac = _DashboardScreenState.acceleration;
-    int tot = _DashboardScreenState.totalRow;
-    int bra = _DashboardScreenState.brake;
-    int bracor = _DashboardScreenState.brakeCorner;
-    int bc = _DashboardScreenState.brakeCornerCount;
+    int ac = DashboardScreenState.acceleration;
+    int tot = DashboardScreenState.totalRow;
+    int bra = DashboardScreenState.brake;
+    int bracor = DashboardScreenState.brakeCorner;
+    int bc = DashboardScreenState.brakeCornerCount;
 
     double percentage = ((ac + bra) / tot) * 100;
 

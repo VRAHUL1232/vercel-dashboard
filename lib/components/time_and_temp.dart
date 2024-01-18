@@ -1,4 +1,3 @@
-import 'package:carmodel/constants.dart';
 import 'package:carmodel/d.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -75,28 +74,28 @@ class _TimeAndTempState extends State<TimeAndTemp>
               ],
             ),
             const Spacer(),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MyApp(),
-                    ),
-                  );
-                },
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 2),
-                  child: SizedBox(
-                    height: screenHeight * 0.05,
-                    width: screenWidth * 0.05,
-                    child: Center(
-                        child: Text(
-                      "INSIGHT",
-                      style: TextStyle(fontSize: 1.1.w, color: white),
-                    )),
+            SizedBox(
+              height: screenHeight * 0.04,
+              child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: const  Color.fromARGB(255, 255, 191, 0),
+                    foregroundColor: Colors.black
                   ),
-                ))
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyApp(),
+                      ),
+                    );
+                  },
+                  child: Center(
+                          child: Text(
+                        "INSIGHTS",
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 1.1.w,),
+                      )),
+                    ),
+                  )
           ],
         ),
       ),

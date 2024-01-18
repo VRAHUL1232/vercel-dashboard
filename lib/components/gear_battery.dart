@@ -33,7 +33,7 @@ class _GearAndBatteryState extends State<GearAndBattery> {
       // ignore: deprecated_member_use
       FirebaseDatabase.instance.reference().child('rpi_sensors').child('brake');
   final DatabaseReference _accReference = FirebaseDatabase.instance
-      .reference()
+      .ref()
       .child('rpi_sensors')
       .child('acceleration');
   final DatabaseReference _brakeReference = FirebaseDatabase.instance
@@ -113,10 +113,10 @@ class _GearAndBatteryState extends State<GearAndBattery> {
         accColor = lightRed;
         return widget.acc.indexOf("LOW");
       case 1:
-      accColor = lightYellow;
+        accColor = lightYellow;
         return widget.acc.indexOf("MEDIUM");
       case 2:
-      accColor = lightGreen;
+        accColor = lightGreen;
         return widget.acc.indexOf("HIGH");
       default:
         return 0;
@@ -163,8 +163,7 @@ class _GearAndBatteryState extends State<GearAndBattery> {
                     ),
                     Column(
                       children: [
-                        Gears(
-                        ),
+                        const Gears(),
                         Padding(
                           padding: EdgeInsets.only(top: screenHeight * 0.055),
                           child: SizedBox(
@@ -180,7 +179,7 @@ class _GearAndBatteryState extends State<GearAndBattery> {
                                       fontWeight: FontWeight.w400,
                                       color: temperatureColor),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Text(
@@ -215,56 +214,63 @@ class _GearAndBatteryState extends State<GearAndBattery> {
                   child: Padding(
                     padding: EdgeInsets.only(
                         top: screenWidth * 0.01, left: screenWidth * 0.014),
-                    child: DefaultTextStyle(
-                      style: TextStyle(),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: [
-                          Text(
-                            "Accn   ",
-                            style: TextStyle(
-                                color: primaryColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 1.6.w),
-                          ),
-                          Text(
-                            widget.acc[accvalue],
-                            style: TextStyle(color: accColor, fontSize: 1.2.w),
-                          )
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          "Accn   ",
+                          style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 1.6.w),
+                        ),
+                        Text(
+                          widget.acc[accvalue],
+                          style: TextStyle(color: accColor, fontSize: 1.2.w),
+                        )
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
             Positioned(
-              top: gearConstraints.maxHeight * 0.10,
-              right: gearConstraints.maxWidth * 0.12,
-              width: gearConstraints.maxWidth * 0.20,
-              height: gearConstraints.maxHeight * 0.38,
-              child: CustomPaint(painter: OdoPrinter(), child:  SizedBox(
-      width: screenWidth*0.15, // Increased width to accommodate the power icon
-      child: Padding(
-        padding: EdgeInsets.only(top: screenWidth*0.01 ,right: screenWidth*0.014),
-        child: DefaultTextStyle(
-          style:TextStyle(
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Text("Brake   ",style: TextStyle(color: primaryColor,fontWeight: FontWeight.w600, fontSize: 1.6.w),),
-              Text(widget.acc[brvalue], style: TextStyle(color: brakeColor,fontSize: 1.2.w),)
-            ],
-          ),
-        ),
-      ),
-    )),
-            ),
+                top: gearConstraints.maxHeight * 0.10,
+                right: gearConstraints.maxWidth * 0.12,
+                width: gearConstraints.maxWidth * 0.20,
+                height: gearConstraints.maxHeight * 0.38,
+                child: CustomPaint(
+                  painter: OdoPrinter(),
+                  child: SizedBox(
+                    width: screenWidth *
+                        0.15, // Increased width to accommodate the power icon
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: screenWidth * 0.01, right: screenWidth * 0.014),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(
+                            "Brake   ",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 1.6.w),
+                          ),
+                          Text(
+                            widget.acc[brvalue],
+                            style:
+                                TextStyle(color: brakeColor, fontSize: 1.2.w),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )),
           ],
         ),
       ),

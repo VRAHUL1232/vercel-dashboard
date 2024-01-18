@@ -58,21 +58,20 @@ Future<void> main() async {
       storageBucket: 'cockpit-intelligence.appspot.com',
     ),
   );
-  runApp(const MyApp_2());
+  runApp(const MyApp2());
 }
 
-class MyApp_2 extends StatefulWidget {
-  const MyApp_2({super.key});
+class MyApp2 extends StatefulWidget {
+  const MyApp2({super.key});
 
   @override
-  State<MyApp_2> createState() => _MyApp_2State();
+  State<MyApp2> createState() => MyApp2State();
 }
 
-class _MyApp_2State extends State<MyApp_2> {
+class MyApp2State extends State<MyApp2> {
 
   @override
   void initState() {
-    // TODO: implement initState
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
@@ -82,7 +81,6 @@ class _MyApp_2State extends State<MyApp_2> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 

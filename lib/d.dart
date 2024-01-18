@@ -1,5 +1,4 @@
 import 'package:carmodel/dash.dart';
-import 'package:carmodel/dashboard.dart';
 import 'package:carmodel/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,13 +21,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
     super.initState();
   }
-
+  @override
   void dispose(){
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -39,7 +37,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MyHomePage(),
     );
@@ -47,6 +45,9 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MyHomePage extends StatelessWidget {
+
+  const MyHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +75,7 @@ class MyHomePage extends StatelessWidget {
                 Navigator.pop(context); // Close the drawer
                 // Add logic to navigate to the data screen
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => DataScreen()));
+                    MaterialPageRoute(builder: (context) =>const DataScreen()));
               },
             ),
             ListTile(

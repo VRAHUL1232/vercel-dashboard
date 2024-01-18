@@ -7,10 +7,10 @@ class BrakeChart extends StatefulWidget {
   const BrakeChart({Key? key}) : super(key: key);
 
   @override
-  _BrakeChartState createState() => _BrakeChartState();
+  BrakeChartState createState() => BrakeChartState();
 }
 
-class _BrakeChartState extends State<BrakeChart> {
+class BrakeChartState extends State<BrakeChart> {
   List<List<dynamic>> csvData = [];
 
   @override
@@ -65,14 +65,14 @@ class _BrakeChartState extends State<BrakeChart> {
                 LineChartBarData(
                   spots: _getSpots(0), // Acceleration (index 0)
                   isCurved: true,
-                  colors: [const Color.fromARGB(255, 243, 145, 33)],
+                  colors: const [ Color.fromARGB(255, 243, 145, 33)],
                   dotData: FlDotData(show: true),
                   belowBarData: BarAreaData(show: true),
                 ),
                 LineChartBarData(
                   spots: _getSpots(7), // Cornering (index 1)
                   isCurved: true,
-                  colors: [Color.fromARGB(255, 0, 179, 255)],
+                  colors: const [Color.fromARGB(255, 0, 179, 255)],
                   dotData: FlDotData(show: true),
                   belowBarData: BarAreaData(show: true),
                 ),

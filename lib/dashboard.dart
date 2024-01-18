@@ -379,7 +379,7 @@ class _DashboardState extends State<Dashboard>
                                         ],
                                       ),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     GearAndBattery(constraints: constraints),
                                   ],
                                 ),
