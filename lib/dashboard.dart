@@ -207,11 +207,11 @@ class _DashboardState extends State<Dashboard>
     double aspectRatio = screenWidth / screenHeight;
 
     if (aspectRatio < 1.3) {
-      aspectRatio = 1.39;
+      aspectRatio = 1.3;
     } else if (aspectRatio < 2) {
-      aspectRatio = 2.09;
+      aspectRatio = 2;
     } else if (aspectRatio < 2.35) {
-      aspectRatio = 2.43;
+      aspectRatio = 2.35;
     } else {
       aspectRatio = 2.65;
     }
@@ -219,7 +219,7 @@ class _DashboardState extends State<Dashboard>
     bool batteryindicator = batteryp <= 20.0;
     return Scaffold(
       backgroundColor: Colors.black,
-      body: (screenWidth/screenHeight <= 1) ? Center(child: Text("Rotate your phone in right side",style: TextStyle(fontSize: 2.h,color: white),),) :SizedBox(
+      body: (screenWidth/screenHeight <= 1) ? Center(child: Text("Turn your mobile in landscape",style: TextStyle(fontSize: 2.h,color: white),),) :SizedBox(
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -232,7 +232,7 @@ class _DashboardState extends State<Dashboard>
               child: Container(
                 constraints: const BoxConstraints(
                   minHeight: 80,
-                  maxHeight: 604,
+                  minWidth: 300,
                 ),
                 // alignment: Alignment.center,
                 child: AspectRatio(
