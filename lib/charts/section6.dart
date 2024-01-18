@@ -1,8 +1,8 @@
-import 'package:carmodel/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:csv/csv.dart' as csv;
 import 'package:flutter/services.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class BrakePieChart extends StatefulWidget {
   const BrakePieChart({Key? key}) : super(key: key);
@@ -56,9 +56,11 @@ class _BrakePieChartState extends State<BrakePieChart> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: 400,
-      height: 200,
+      width: screenWidth*0.25,
+      height: screenHeight*0.2,
       child: Stack(
         children: [
           // Use FlPieChart instead of LineChart
@@ -76,11 +78,11 @@ class _BrakePieChartState extends State<BrakePieChart> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: white,
+                color: const Color.fromARGB(192, 43, 42, 41),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
-                'Brake 0',
+                'Sudden Brake',
                 style: TextStyle(
                   color: Colors.blue,
                   fontWeight: FontWeight.bold,
@@ -95,11 +97,10 @@ class _BrakePieChartState extends State<BrakePieChart> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: white,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
-                'Brake 1',
+                'Low',
                 style: TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
@@ -114,13 +115,13 @@ class _BrakePieChartState extends State<BrakePieChart> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: white,
+                color: const Color.fromARGB(192, 43, 42, 41),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
-                'Brake 2',
+                'Medium',
                 style: TextStyle(
-                  color: Colors.green,
+                  color: Colors.yellow,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
@@ -133,13 +134,13 @@ class _BrakePieChartState extends State<BrakePieChart> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: white,
+                color: const Color.fromARGB(192, 43, 42, 41),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
-                'Brake 3 ', // Display the count for 'Brake 3'
+                'High', // Display the count for 'Brake 3'
                 style: TextStyle(
-                  color: Colors.yellow,
+                  color: Colors.green,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),

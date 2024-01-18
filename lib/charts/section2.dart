@@ -1,38 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:csv/csv.dart' as csv;
-import 'package:flutter/services.dart';
 
 class BrakeChart extends StatefulWidget {
   const BrakeChart({Key? key}) : super(key: key);
 
   @override
-  BrakeChartState createState() => BrakeChartState();
+  _BrakeChartState createState() => _BrakeChartState();
 }
 
-class BrakeChartState extends State<BrakeChart> {
-  List<List<dynamic>> csvData = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCSVData();
-  }
-
-  Future<void> _loadCSVData() async {
-    final String data = await rootBundle.loadString('assets/csv/ILP.csv');
-    final List<List<dynamic>> csvList =
-        const csv.CsvToListConverter().convert(data);
-
-    // Skip the first row (header) if it exists
-    if (csvList.isNotEmpty && csvList[0].first == 'Acc') {
-      csvList.removeAt(0);
-    }
-
-    setState(() {
-      csvData = csvList;
-    });
-  }
+class _BrakeChartState extends State<BrakeChart> {
+  // Custom data for demonstration
+  List<List<dynamic>> customData = [
+    ['Acceleration', 'Cornering'],
+    [0, 0],
+    [2, 1],
+    [3, 2],
+    [3, 1],
+    [2, 2],
+    [3, 0],
+    [0, 1],
+    [2, 2],
+    [3, 2],
+    [2, 1],
+  ];
 
   double findMaxValue(List<List<dynamic>> data, int columnIndex) {
     return data
@@ -42,9 +32,11 @@ class BrakeChartState extends State<BrakeChart> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: 400,
-      height: 200,
+      width: screenWidth*0.25,
+      height: screenHeight*0.2,
       child: Stack(
         children: [
           LineChart(
@@ -58,21 +50,21 @@ class BrakeChartState extends State<BrakeChart> {
                 ),
               ),
               minX: 0,
-              maxX: findMaxValue(csvData, 0) + 25,
+              maxX: 10,
               minY: 0,
               maxY: 3,
               lineBarsData: [
                 LineChartBarData(
                   spots: _getSpots(0), // Acceleration (index 0)
                   isCurved: true,
-                  colors: const [ Color.fromARGB(255, 243, 145, 33)],
+                  colors: [const Color.fromARGB(255, 243, 145, 33)],
                   dotData: FlDotData(show: true),
                   belowBarData: BarAreaData(show: true),
                 ),
                 LineChartBarData(
-                  spots: _getSpots(7), // Cornering (index 1)
+                  spots: _getSpots(1), // Cornering (index 1)
                   isCurved: true,
-                  colors: const [Color.fromARGB(255, 0, 179, 255)],
+                  colors: [Color.fromARGB(255, 0, 179, 255)],
                   dotData: FlDotData(show: true),
                   belowBarData: BarAreaData(show: true),
                 ),
@@ -85,7 +77,6 @@ class BrakeChartState extends State<BrakeChart> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(34, 0, 0, 0).withOpacity(0.7),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
@@ -104,7 +95,6 @@ class BrakeChartState extends State<BrakeChart> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(34, 0, 0, 0).withOpacity(0.7),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
@@ -124,9 +114,9 @@ class BrakeChartState extends State<BrakeChart> {
 
   List<FlSpot> _getSpots(int columnIndex) {
     return List.generate(
-      csvData.length,
+      customData.length - 1,
       (index) {
-        final dynamic value = csvData[index][columnIndex];
+        final dynamic value = customData[index + 1][columnIndex];
         try {
           final double parsedValue = double.tryParse('$value') ?? 0;
 

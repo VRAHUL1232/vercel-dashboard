@@ -91,38 +91,42 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
       ),
-      body:SingleChildScrollView(
-        child: Column(
-          children: [
-            GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: _calculateCrossAxisCount(context),
-                childAspectRatio: 1.5,
-                mainAxisSpacing: 16.0,
-                crossAxisSpacing: 16.0,
+      body: SingleChildScrollView(
+        child: Expanded(
+          child: Column(
+            children: [
+              GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _calculateCrossAxisCount(context),
+                  childAspectRatio: screenWidth/screenHeight,
+                  mainAxisSpacing: 16.0,
+                  crossAxisSpacing: 16.0,
+                ),
+                shrinkWrap: true,
+                itemCount: 6,
+                itemBuilder: (context, index) {
+                  return DashboardCard(index + 1);
+                },
               ),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 6,
-              itemBuilder: (context, index) {
-                return DashboardCard(index + 1);
-              },
-            ),
-            const SizedBox(height: 16),
-            const Rating(
-              title: 'Driver Behaviour',
-              section: 1,
-            ),
-            const Rating(
-              title: 'Vehicle condition rating',
-              section: 2,
-            ),
-            const SizedBox(height: 16),
-          ],
+              const SizedBox(height: 16),
+              const Rating(
+                title: 'Driver Behaviour',
+                section: 1,
+              ),
+              const Rating(
+                title: 'Vehicle condition rating',
+                section: 2,
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
@@ -159,13 +163,13 @@ class DashboardCard extends StatelessWidget {
   Widget _buildChart(BuildContext context) {
     switch (sectionNumber) {
       case 1:
-        return const brac();
+        return const Brac();
       case 2:
         return const BrakeChart();
       case 3:
-        return const LineChartWidget();
+        return LineChartWidget();
       case 4:
-        return const corner();
+        return CornerChart();
       case 5:
         return const Steer();
       case 6:

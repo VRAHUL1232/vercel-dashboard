@@ -1,4 +1,4 @@
-import 'package:carmodel/d.dart';
+import 'package:carmodel/dash.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -85,7 +85,7 @@ class _TimeAndTempState extends State<TimeAndTemp>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const MyApp(),
+                        builder: (context) => const DashboardScreen(),
                       ),
                     );
                   },

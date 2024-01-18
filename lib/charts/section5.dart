@@ -1,39 +1,28 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:csv/csv.dart' as csv;
-import 'package:flutter/services.dart';
 
 class Steer extends StatefulWidget {
   const Steer({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _SteerState createState() => _SteerState();
 }
 
 class _SteerState extends State<Steer> {
-  List<List<dynamic>> csvData = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCSVData();
-  }
-
-  Future<void> _loadCSVData() async {
-    final String data = await rootBundle.loadString('assets/csv/ILP.csv');
-    final List<List<dynamic>> csvList =
-        const csv.CsvToListConverter().convert(data);
-
-    // Skip the first row (header) if it exists
-    if (csvList.isNotEmpty && csvList[0].first == 'Brake') {
-      csvList.removeAt(0);
-    }
-
-    setState(() {
-      csvData = csvList;
-    });
-  }
+  // Custom data for demonstration
+  List<List<dynamic>> customData = [
+    ['Brake', 'Steering Position'],
+    [0, 0],
+    [1, 17],
+    [2, 19],
+    [3, 14],
+    [2, 18],
+    [0, 09],
+    [2, 16],
+    [4, 4],
+    [2, 14],
+    [2, 22],
+  ];
 
   double findMaxValue(List<List<dynamic>> data, int columnIndex) {
     return data
@@ -43,9 +32,11 @@ class _SteerState extends State<Steer> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: 400,
-      height: 200,
+      width: screenWidth*0.25,
+      height: screenHeight*0.2,
       child: Stack(
         children: [
           LineChart(
@@ -55,28 +46,25 @@ class _SteerState extends State<Steer> {
               borderData: FlBorderData(
                 show: true,
                 border: Border.all(
-                    color: const Color.fromARGB(0, 255, 255, 255), width: 1),
+                    color: const Color.fromARGB(0, 255, 255, 255), width: 4),
               ),
               minX: 0,
-              maxX: findMaxValue(csvData, 0) + 25,
+              maxX: 10,
               minY: 0,
-              maxY: 3,
+              maxY: 20, // Adjust the max value as needed
               lineBarsData: [
                 LineChartBarData(
-                  spots: _getSpots(1), // Use 0 as the column index for 'Brake'
+                  spots: _getSpots(0),
                   isCurved: true,
                   colors: [Colors.blue],
-                  dotData: FlDotData(show: false),
+                  dotData: FlDotData(show: true),
                   belowBarData: BarAreaData(show: true),
                 ),
                 LineChartBarData(
-                  spots: _getSpots(
-                      17), // Use 18 as the column index for 'Steering Position'
+                  spots: _getSpots(1),
                   isCurved: true,
-                  colors: [
-                    Colors.red
-                  ], // You can use a different color for the second line
-                  dotData: FlDotData(show: false),
+                  colors: [Colors.red],
+                  dotData: FlDotData(show: true),
                   belowBarData: BarAreaData(show: true),
                 ),
               ],
@@ -88,7 +76,6 @@ class _SteerState extends State<Steer> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(192, 43, 42, 41),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
@@ -107,11 +94,10 @@ class _SteerState extends State<Steer> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(192, 43, 42, 41),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
-                'Steering Position',
+                '1/4 th ofSteering Position ',
                 style: TextStyle(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,
@@ -127,15 +113,12 @@ class _SteerState extends State<Steer> {
 
   List<FlSpot> _getSpots(int columnIndex) {
     return List.generate(
-      csvData.length,
+      customData.length - 1,
       (index) {
-        final dynamic value = csvData[index][columnIndex];
+        final dynamic value = customData[index + 1][columnIndex];
         try {
-          final double parsedValue = double.parse('$value');
-          // Divide the 'Steering Position' values by 10
-          final double adjustedValue =
-              columnIndex == 17 ? parsedValue / 100 : parsedValue;
-          return FlSpot(index.toDouble(), adjustedValue);
+          final double parsedValue = double.tryParse('$value') ?? 0;
+          return FlSpot(index.toDouble(), parsedValue);
         } catch (e) {
           // ignore: avoid_print
           print('Error parsing value at index $index: $e');
@@ -144,4 +127,10 @@ class _SteerState extends State<Steer> {
       },
     );
   }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: Steer(),
+  ));
 }

@@ -1,53 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:csv/csv.dart' as csv;
-import 'package:flutter/services.dart';
 
-class LineChartWidget extends StatefulWidget {
-  const LineChartWidget({Key? key}) : super(key: key);
+class LineChartWidget extends StatelessWidget {
+  // Custom data for demonstration
+  final List<List<dynamic>> customData = [
+    [0, 0],
+    [3, 1],
+    [1, 2],
+    [6, 1],
+    [2, 2],
+    [7, 0],
+    [3, 1],
+    [9, 2],
+    [5, 2],
+    [4, 1],
+  ];
 
-  @override
-  // ignore: library_private_types_in_public_api
-  _LineChartWidgetState createState() => _LineChartWidgetState();
-}
-
-class _LineChartWidgetState extends State<LineChartWidget> {
-  List<List<dynamic>> csvData = [];
-  int acceleration3Count = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCSVData();
-  }
-
-  Future<void> _loadCSVData() async {
-    final String data = await rootBundle.loadString('assets/csv/ILP.csv');
-    final List<List<dynamic>> csvList =
-        const csv.CsvToListConverter().convert(data);
-
-    // Skip the first row (header) if it exists
-    if (csvList.isNotEmpty && csvList[0].first == 'Acc') {
-      csvList.removeAt(0);
-    }
-
-    setState(() {
-      csvData = csvList;
-      _countAcceleration3();
-    });
-  }
-
-  void _countAcceleration3() {
-    acceleration3Count = 0;
-
-    for (var row in csvData) {
-      int accelerationValue = int.tryParse('${row[0]}') ?? -1;
-
-      if (accelerationValue == 3) {
-        acceleration3Count++;
-      }
-    }
-  }
+  LineChartWidget({super.key});
 
   double findMaxValue(List<List<dynamic>> data, int columnIndex) {
     return data
@@ -57,9 +26,11 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: 400,
-      height: 200,
+      width: screenWidth*0.25,
+      height: screenHeight*0.2,
       child: Stack(
         children: [
           LineChart(
@@ -69,18 +40,20 @@ class _LineChartWidgetState extends State<LineChartWidget> {
               borderData: FlBorderData(
                 show: true,
                 border: Border.all(
-                    color: const Color.fromARGB(0, 255, 255, 255), width: 1),
+                  color: const Color.fromARGB(0, 255, 255, 255),
+                  width: 2,
+                ),
               ),
               minX: 0,
-              maxX: findMaxValue(csvData, 0) + 25,
+              maxX: findMaxValue(customData, 0) + 1,
               minY: 0,
-              maxY: 3,
+              maxY: 10,
               lineBarsData: [
                 LineChartBarData(
                   spots: _getSpots(),
                   isCurved: true,
                   colors: [Colors.blue],
-                  dotData: FlDotData(show: false),
+                  dotData: FlDotData(show: true),
                   belowBarData: BarAreaData(show: true),
                 ),
               ],
@@ -92,7 +65,6 @@ class _LineChartWidgetState extends State<LineChartWidget> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(192, 43, 42, 41),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Text(
@@ -112,9 +84,9 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
   List<FlSpot> _getSpots() {
     return List.generate(
-      csvData.length,
+      customData.length,
       (index) {
-        final dynamic value = csvData[index][0];
+        final dynamic value = customData[index][0];
         try {
           final double parsedValue = double.parse('$value');
           return FlSpot(index.toDouble(), parsedValue);
@@ -129,7 +101,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 }
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     home: LineChartWidget(),
   ));
 }
