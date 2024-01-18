@@ -32,8 +32,10 @@ class DataScreenState extends State<DataScreen> {
 
     setState(() {
       csvData = rowsAsListOfValues;
-      isLoading = false;
       csvColumn = csvData[0];
+      print(csvData);
+      print(csvColumn);
+      isLoading = false;
     });
   }
 
@@ -75,7 +77,7 @@ Widget build(BuildContext context) {
         scrollDirection: Axis.horizontal,
         child: DataTable(
   columns: List.generate(
-          csvData[0].length,
+          csvColumn.length,
           (index) => DataColumn(label: Text('Column $index')),
         )
 , // Check if csvData is not empty before generating columns
