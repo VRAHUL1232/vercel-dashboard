@@ -93,7 +93,7 @@ class _TimeAndTempState extends State<TimeAndTemp>
                     child: Center(
                         child: Text(
                       "INSIGHT",
-                      style: TextStyle(fontSize: 1.1.w, color: white),
+                      style: TextStyle(fontSize: 1.1.w, color: yellow),
                     )),
                   ),
                 ))
