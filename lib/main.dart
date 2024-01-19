@@ -91,6 +91,7 @@ class MyApp2State extends State<MyApp2> {
       builder: (p0, p1, p2) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
+          
           theme: ThemeData.dark(),
           home: FutureBuilder(
             future: Firebase.initializeApp(),

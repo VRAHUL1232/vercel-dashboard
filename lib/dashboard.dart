@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field
 import 'dart:math';
 import 'package:carmodel/constants.dart';
+import 'package:carmodel/dash.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -206,11 +207,11 @@ class _DashboardState extends State<Dashboard>
     final screenHeight = MediaQuery.of(context).size.height;
     double aspectRatio = screenWidth / screenHeight;
 
-    if (aspectRatio < 1.3) {
-      aspectRatio = 1.3;
-    } else if (aspectRatio < 2) {
-      aspectRatio = 2;
-    } else if (aspectRatio < 2.35) {
+    if (aspectRatio < 1.38) {
+      aspectRatio = 1.5;
+    } else if (aspectRatio < 1.95) {
+      aspectRatio = 2.1;
+    } else if (aspectRatio < 2.15) {
       aspectRatio = 2.35;
     } else {
       aspectRatio = 2.65;
@@ -218,6 +219,39 @@ class _DashboardState extends State<Dashboard>
 
     bool batteryindicator = batteryp <= 20.0;
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: screenHeight*0.07,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu,size: screenHeight*0.05,),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
+      ),
+      drawer: Drawer(
+        width: screenWidth*0.4,
+        child: ListView(
+          children: [
+            ListTile(
+              title: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Insights',style: TextStyle(fontSize: screenWidth*0.015),),
+              ),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                // Add logic to navigate to the dashboard screen
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const DashboardScreen()));
+              },
+            ),
+          ],
+        ),
+      ),
       backgroundColor: Colors.black,
       body: (screenWidth/screenHeight <= 1) ? Center(child: Text("Turn your mobile in landscape",style: TextStyle(fontSize: 2.h,color: white),),) :SizedBox(
         width: double.infinity,

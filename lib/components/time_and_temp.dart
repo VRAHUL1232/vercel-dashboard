@@ -58,7 +58,7 @@ class _TimeAndTempState extends State<TimeAndTemp>
       child: DefaultTextStyle(
         style: Theme.of(context).textTheme.titleMedium!,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               children: [
@@ -73,29 +73,6 @@ class _TimeAndTempState extends State<TimeAndTemp>
                 ),
               ],
             ),
-            const Spacer(),
-            SizedBox(
-              height: screenHeight * 0.04,
-              child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: const  Color.fromARGB(255, 255, 191, 0),
-                    foregroundColor: Colors.black
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const DashboardScreen(),
-                      ),
-                    );
-                  },
-                  child: Center(
-                          child: Text(
-                        "INSIGHTS",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 1.1.w,),
-                      )),
-                    ),
-                  )
           ],
         ),
       ),
