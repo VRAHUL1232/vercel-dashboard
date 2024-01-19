@@ -5,17 +5,7 @@ import 'package:carmodel/charts/section4.dart';
 import 'package:carmodel/charts/section5.dart';
 import 'package:carmodel/charts/section6.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:csv/csv.dart';
-import 'dart:async' show Future;
-
-void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: DashboardScreen(),
-  ));
-}
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -24,64 +14,7 @@ class DashboardScreen extends StatefulWidget {
   DashboardScreenState createState() => DashboardScreenState();
 }
 
-class DashboardScreenState extends State<DashboardScreen> {
-  late List<List<dynamic>> csvData;
-  static int totalRow = 0;
-  static int acceleration = 0;
-  static int brake = 0;
-  static int brakeCorner = 0;
-  static int brakeCornerCount = 0; // New variable
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCSVData();
-  }
-
-  Future<void> _loadCSVData() async {
-    final String data = await rootBundle.loadString('assets/csv/ILP.csv');
-    final List<List<dynamic>> csvList =
-        const CsvToListConverter().convert(data);
-
-    // Skip the first row (header) if it exists
-    if (csvList.isNotEmpty && csvList[0].first == 'Brake') {
-      csvList.removeAt(0);
-    }
-
-    int accelerationCount = _countOccurrences(
-        csvList, 1, 3); // Assuming the column index for 'Acc' is 1
-    int brakeCount = _countOccurrences(
-        csvList, 0, 3); // Assuming the column index for 'Brake' is 0
-    brakeCornerCount = _countBrakeCornerOccurrences(csvList);
-
-    setState(() {
-      csvData = csvList;
-      totalRow = csvData.length;
-      acceleration = accelerationCount;
-      brake = brakeCount;
-      brakeCorner = brakeCornerCount; // Assign the new variable to brakeCorner
-    });
-  }
-
-  int _countOccurrences(
-      List<List<dynamic>> data, int columnIndex, dynamic targetValue) {
-    return data.where((row) => row[columnIndex] == targetValue).length;
-  }
-
-  int _countBrakeCornerOccurrences(List<List<dynamic>> data) {
-    int count = 0;
-    for (var row in data) {
-      int brakeValue = int.tryParse('${row[0]}') ??
-          -1; // Assuming the column index for 'Brake' is 0
-      int corneringValue = int.tryParse('${row[7]}') ??
-          -1; // Assuming the column index for 'Cornering' is 2
-
-      if (brakeValue == 3 && corneringValue == 1) {
-        count++;
-      }
-    }
-    return count;
-  }
+class DashboardScreenState extends State<DashboardScreen> {// New variable
 
   int _calculateCrossAxisCount(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -90,7 +23,6 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -171,34 +103,6 @@ class TenStarRatingBarState extends State<TenStarRatingBar> {
   @override
   void initState() {
     super.initState();
-
-    _initRatings();
-  }
-
-  void _initRatings() {
-    int ac = DashboardScreenState.acceleration;
-    int tot = DashboardScreenState.totalRow;
-    int bra = DashboardScreenState.brake;
-    int bracor = DashboardScreenState.brakeCorner;
-    int bc = DashboardScreenState.brakeCornerCount;
-
-    double percentage = ((ac + bra) / tot) * 100;
-
-    if (percentage <= 25) {
-      _ratings = {1: 9.0, 2: 3.0};
-    } else {
-      num starRating = (10 - ((percentage - 25) / 10)).clamp(1, 9);
-      _ratings = {1: starRating.toDouble(), 2: 3.0};
-    }
-
-    double cornerPercentage = ((bracor + bc) / tot) * 100;
-
-    if (cornerPercentage <= 25) {
-      _ratings[2] = 9.0;
-    } else {
-      num cornerStarRating = (10 - ((cornerPercentage - 25) / 10)).clamp(1, 9);
-      _ratings[2] = cornerStarRating.toDouble();
-    }
   }
 
   double _calculateStarSize(BuildContext context) {
@@ -214,7 +118,7 @@ class TenStarRatingBarState extends State<TenStarRatingBar> {
       direction: Axis.horizontal,
       allowHalfRating: true,
       itemCount: 10,
-      itemSize: _calculateStarSize(context),
+      itemSize: 7,
       itemBuilder: (context, _) => Icon(
         Icons.star,
         color: Colors.amber,
