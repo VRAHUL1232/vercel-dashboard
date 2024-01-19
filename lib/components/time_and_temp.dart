@@ -85,7 +85,7 @@ class _TimeAndTempState extends State<TimeAndTemp>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DashboardScreen(),
+                        builder: (context) => const MyApp(),
                       ),
                     );
                   },
