@@ -10,7 +10,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:csv/csv.dart';
 import 'dart:async' show Future;
 
-
 void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -95,37 +94,41 @@ class DashboardScreenState extends State<DashboardScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-      ),
       body: SingleChildScrollView(
-        child: Expanded(
-          child: Column(
-            children: [
-              GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: _calculateCrossAxisCount(context),
-                  childAspectRatio: screenWidth/screenHeight,
-                  mainAxisSpacing: 16.0,
-                  crossAxisSpacing: 16.0,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: screenHeight*0.07,horizontal: 10),
+          child: Expanded(
+            child: Column(
+              children: [
+                GridView(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: _calculateCrossAxisCount(context),
+                    childAspectRatio: 1.5,
+                    mainAxisSpacing: 40.0,
+                    crossAxisSpacing: 16.0,
+                  ),
+                  shrinkWrap: true,
+                  children: [
+                    const Brac(),
+                    const BrakeChart(),
+                    LineChartWidget(),
+                    CornerChart(),
+                    const Steer(),
+                    const BrakePieChart()
+                  ],
                 ),
-                shrinkWrap: true,
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return DashboardCard(index + 1);
-                },
-              ),
-              const SizedBox(height: 16),
-              const Rating(
-                title: 'Driver Behaviour',
-                section: 1,
-              ),
-              const Rating(
-                title: 'Vehicle condition rating',
-                section: 2,
-              ),
-              const SizedBox(height: 16),
-            ],
+                const SizedBox(height: 16),
+                const Rating(
+                  title: 'Driver Behaviour',
+                  section: 1,
+                ),
+                const Rating(
+                  title: 'Vehicle condition rating',
+                  section: 2,
+                ),
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
       ),
@@ -133,58 +136,11 @@ class DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-class DashboardCard extends StatelessWidget {
-  final int sectionNumber;
-
-  const DashboardCard(this.sectionNumber, {Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shadowColor: Colors.blue,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 8),
-            _buildChart(context),
-            const SizedBox(height: 16),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildChart(BuildContext context) {
-    switch (sectionNumber) {
-      case 1:
-        return const Brac();
-      case 2:
-        return const BrakeChart();
-      case 3:
-        return LineChartWidget();
-      case 4:
-        return CornerChart();
-      case 5:
-        return const Steer();
-      case 6:
-        return const BrakePieChart();
-      default:
-        return Container();
-    }
-  }
-}
-
 class Rating extends StatelessWidget {
   final String title;
   final int section;
 
-  const Rating({required this.title, required this.section,super.key});
+  const Rating({required this.title, required this.section, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +159,7 @@ class Rating extends StatelessWidget {
 class TenStarRatingBar extends StatefulWidget {
   final int section;
 
-  const TenStarRatingBar({required this.section,super.key});
+  const TenStarRatingBar({required this.section, super.key});
 
   @override
   TenStarRatingBarState createState() => TenStarRatingBarState();

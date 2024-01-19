@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:csv/csv.dart' as csv;
 import 'package:flutter/services.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class BrakePieChart extends StatefulWidget {
   const BrakePieChart({Key? key}) : super(key: key);
